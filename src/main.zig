@@ -11,9 +11,13 @@ pub fn main() !void {
     const args = try std.process.argsAlloc(allocator);
     defer std.process.argsFree(allocator, args);
 
-    if (args.len < 2 or std.mem.eql(u8, args[1], "-h") or std.mem.eql(u8, args[1], "--help")) {
+    if (args.len < 2) {
         printHelp();
-        if (args.len < 2) return error.InvalidArgs;
+        return;
+    }
+
+    if (std.mem.eql(u8, args[1], "-h") or std.mem.eql(u8, args[1], "--help")) {
+        printHelp();
         return;
     }
 
