@@ -13,11 +13,21 @@ pub fn main() !void {
 
     if (args.len < 2) {
         printHelp();
-        return;
+        std.process.exit(1);
     }
 
     if (std.mem.eql(u8, args[1], "-h") or std.mem.eql(u8, args[1], "--help")) {
         printHelp();
+        return;
+    }
+
+    if (std.mem.eql(u8, args[1], "library")) {
+        if (args.len < 3) {
+            std.debug.print("Error: Library name required\n\n", .{});
+            printHelp();
+            std.process.exit(1);
+        }
+        try create.addLibrary(allocator, args[2]);
         return;
     }
 
@@ -31,10 +41,12 @@ fn printHelp() void {
         \\
         \\Usage:
         \\  zigcreate <project_name>    Create new project
+        \\  zigcreate library <name>    Add library to existing project
         \\  zigcreate -h | --help      Show this help
         \\
-        \\Example:
+        \\Examples:
         \\  zigcreate my_awesome_project
+        \\  zigcreate library mylib
         \\
     , .{});
 }
