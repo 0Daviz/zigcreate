@@ -12,4 +12,11 @@ pub fn build(b: *std.Build) void {
     });
 
     b.installArtifact(exe);
+
+    const run_step = b.step("run", "Run zigcreate");
+    const run_exe = b.addRunArtifact(exe);
+    if (b.args) |args| {
+        run_exe.addArgs(args);
+    }
+    run_step.dependOn(&run_exe.step);
 }
