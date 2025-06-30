@@ -23,7 +23,7 @@ pub fn run(allocator: std.mem.Allocator, project_name: []const u8) !void {
         try createBuildFile(allocator, project_name);
         try createMainFile(allocator, project_name);
         try createReadmeFile(allocator, project_name);
-        try createGitIgnoreFile(allocator, project_name);
+        try createGitignoreFile(allocator, project_name);
 
         std.debug.print("Success! Project initialized in '{s}'\n", .{project_name});
         return;
@@ -57,13 +57,6 @@ fn createReadmeFile(allocator: std.mem.Allocator, project_name: []const u8) !voi
     const content = try templates.getReadmeContent(allocator, project_name);
     defer allocator.free(content);
     try readme.writeAll(content);
-}
-
-fn createGitIgnoreFile(allocator: std.mem.Allocator, project_name: []const u8) !void {
-    const readme = try fs.cwd().createFile(try mem.concat(allocator, u8, &[_][]const u8{ project_name, "/.gitignore" }), .{});
-    defer readme.close();
-
-    try readme.writeAll(templates.GIT_IGNORE_CONTENT);
 }
 
 pub fn addLibrary(allocator: std.mem.Allocator, lib_name: []const u8) !void {
@@ -188,7 +181,7 @@ fn updateRootBuild(allocator: std.mem.Allocator, lib_name: []const u8) !void {
 }
 
 //gitignore added
-fn createGitignore(allocator: std.mem.Allocator, project_name: []const u8) !void {
+fn createGitignoreFile(allocator: std.mem.Allocator, project_name: []const u8) !void {
     const gitignore_path = try fs.path.join(allocator, &[_][]const u8{ project_name, ".gitignore" });
     defer allocator.free(gitignore_path);
 
