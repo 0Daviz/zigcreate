@@ -8,6 +8,13 @@ pub const MAIN_FILE_CONTENT =
     \\}
 ;
 
+pub const GIT_IGNORE_CONTENT =
+\\.zig-cache/
+\\zig-out/
+\\*.o
+\\
+;
+
 pub fn getBuildContent(allocator: std.mem.Allocator, project_name: []const u8) ![]const u8 {
     const header =
         \\const std = @import("std");
